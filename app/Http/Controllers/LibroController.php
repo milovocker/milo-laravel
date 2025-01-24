@@ -47,14 +47,17 @@ class LibroController extends Controller
 
         $validator = Validator::make($data, $rules);
 
+        $errors = $validator->errors();
+
         if ($validator->fails()) {
-        
-            return response()->json([
-                'message' => 'Alguno de los datos introducidos no es válido',
-                'errors' => $validator->errors()
-            ], 422);
+
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+
 
         } else {
+
             $libro = new Libro;
             $libro->nombre = $request->nombre;
             $libro->autor = $request->autor;
@@ -65,7 +68,8 @@ class LibroController extends Controller
             $libro->save();
         }
 
-        return redirect()->back()->with('exitoAlta', 'Libro añadido correctamente');
+        return redirect()->back()->with('exitoAlta', 'Libro añadido correctamente')
+                                 ->withInput();
     }
 
     function eliminar($id)
