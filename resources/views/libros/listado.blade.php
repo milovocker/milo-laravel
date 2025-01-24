@@ -7,7 +7,12 @@
     <br>
     
     <h3 class="text-center">Listado de libros</h3>
-    <a href="/libros/alta" class="btn btn-success mx-auto"><i class="bi bi-plus"></i> Nuevo libro</a>
+    
+    @if(session('exitoEliminar'))
+        <div class="container">
+            <p style="color: white; background-color:rgb(86, 183, 86); padding:5px; text-align:center; border-radius: 5px;">{{ session('exitoEliminar') }}</p>
+        </div>
+    @endif
     <table class="table text-start">
         <thead>
             <tr>

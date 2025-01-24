@@ -19,4 +19,4 @@ Route::get('/libros'       , [LibroController::class, 'listado']);
 Route::get('/libros/alta'       , [LibroController::class, 'formulario']);
 Route::post('/libros/alta'       , [LibroController::class, 'alta']);
 
-Route::get('/libros/eliminar/{$id}'       , [LibroController::class, 'eliminar']);
+Route::get('/libros/eliminar/{id}'       , [LibroController::class, 'eliminar']);

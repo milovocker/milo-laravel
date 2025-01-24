@@ -4,6 +4,11 @@
 
 @section('content')
     <div class="container">
+
+        @if(session('exitoAlta'))
+            <p style="color: white; background-color:rgb(86, 183, 86); padding:5px; text-align:center; border-radius: 5px;">{{ session('exitoAlta') }}</p>
+        @endif
+
         <form action="/libros/alta" method="POST">
             @csrf
             <div class="mb-3">
