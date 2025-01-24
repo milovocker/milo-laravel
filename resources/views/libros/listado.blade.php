@@ -3,11 +3,16 @@
 @section('title', 'Listado de libros')
 
 @section('content')
-    <table class="table">
+<div class="container text-center">
+    <br>
+    
+    <h3 class="text-center">Listado de libros</h3>
+    <a href="/libros/alta" class="btn btn-success mx-auto"><i class="bi bi-plus"></i> Nuevo libro</a>
+    <table class="table text-start">
         <thead>
             <tr>
-            <th scope="col">#</th>
-            <th scope="col">Título</th>
+            <th scope="col">Opciones</th>
+            <th scope="col">Nombre</th>
             <th scope="col">Autor</th>
             <th scope="col">Género</th>
             <th scope="col">Editorial</th>
@@ -17,10 +22,10 @@
         </thead>
         @foreach($libros as $libro)
             <tr>
-                <td>
+                <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     <div>
                         <a href="/libros/{{ $libro->id }}" class="btn btn-primary"><i class="bi bi-search"></i></a>
-                        <a href="/libros/actualizar/{{ $libro->id }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                        <a href="/libros/actualizar/{{ $libro->id }}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
                         <a href="/libros/eliminar/{{ $libro->id }}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
                     </div>
                 </td>
@@ -35,7 +40,7 @@
         @endforeach
     </table>
     <div class="container d-flex justify-content-center">
-        {{ $libros->links() }}
     </div>
-    <a href="/libros/nuevo" class="btn btn-success"><i class="bi bi-plus"></i> Nuevo libro</a>
+    <a href="/libros/alta" class="btn btn-success"><i class="bi bi-plus"></i> Nuevo libro</a>
+</div>
 @endsection
