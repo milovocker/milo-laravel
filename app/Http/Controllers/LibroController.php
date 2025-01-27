@@ -10,7 +10,7 @@ class LibroController extends Controller
 {
     function listado()
     {
-        $libros = Libro::all();
+        $libros = Libro::paginate(7);
         $EDITORIALES = Libro::EDITORIALES;
         $GENEROS = Libro::GENEROS;
 
@@ -21,42 +21,42 @@ class LibroController extends Controller
     {
         $EDITORIALES = Libro::EDITORIALES;
         $GENEROS = Libro::GENEROS;
-        
-        return view('libros.formulario', compact('GENEROS', 'EDITORIALES'));
+        $disabled = false;
+        return view('libros.formulario', compact('GENEROS', 'EDITORIALES', 'disabled'));
     }
 
     function alta( Request $request )
     {
-        $data = [
-            'nombre' => $request->nombre,
-            'autor' => $request->autor,
-            'genero' => $request->genero,
-            'editorial' => $request->editorial,
-            'descripcion' => $request->descripcion,
-            'anho' => $request->anho,
-        ];
+        $request->validate([
+            'nombre'         => 'required|string|max:255',
+            'autor'          => 'required|string|max:255',
+            'anho'           => 'required|integer',
+            'genero'         => 'required',
+            'editorial'      => 'required',
+            'descripcion'    => 'required|string'
+        ], [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.string'   => 'Debe ser de tipo cadena de texto.',
+            'nombre.max'      => 'Máximo 255 caracteres',
 
-        $rules = [
-            'nombre' => 'required|string|max:255',
-            'autor' => 'required|string|max:255',
-            'genero' => 'required',
-            'editorial' => 'required',
-            'descripcion' => 'required',
-            'anho' => 'required|integer'
-        ];
-
-        $validator = Validator::make($data, $rules);
-
-        $errors = $validator->errors();
-
-        if ($validator->fails()) {
-
-            return redirect()->back()
-            ->withErrors($validator)
-            ->withInput();
+            'nombre.max'      => 'Máximo 255 caracteres',
 
 
-        } else {
+
+            'autor.required' => 'El autor es obligatorio.',
+            'autor.string'   => 'Debe ser de tipo cadena de texto.',
+            'autor.max'      => 'Máximo 255 caracteres',
+
+            'anho.required' => 'El año es obligatorio.',
+            'anho.integer'  => 'Debe ser de tipo entero.',
+
+            'genero.required'      => 'El género es obligatorio.',
+            'editorial.required'   => 'la editorial es obligatoria.',
+            'descripcion.required'   => 'La descripción es obligatoria.',
+
+
+        ]);
+
 
             $libro = new Libro;
             $libro->nombre = $request->nombre;
@@ -66,10 +66,8 @@ class LibroController extends Controller
             $libro->descripcion = $request->descripcion;
             $libro->anho = $request->anho;
             $libro->save();
-        }
 
-        return redirect()->back()->with('exitoAlta', 'Libro añadido correctamente')
-                                 ->withInput();
+            return redirect()->route('libros.alta')->with('exito', 'Libro insertado correctamente.');
     }
 
     function eliminar($id)
@@ -77,5 +75,18 @@ class LibroController extends Controller
         $libroEliminar = Libro::find($id);
         $libroEliminar->delete();
         return redirect()->back()->with('exitoEliminar', 'Libro eliminado correctamente');
+    }
+
+    function consultar($id)
+    {
+        $libroConsultar = Libro::find($id);
+
+        $EDITORIALES = Libro::EDITORIALES;
+        $GENEROS = Libro::GENEROS;
+        $devolver = '';
+        $disabled = true;
+
+        return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'libroConsultar', 'disabled'));
+
     }
 }

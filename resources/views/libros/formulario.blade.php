@@ -5,74 +5,75 @@
 @section('content')
     <div class="container">
 
-        @if(session('exitoAlta'))
-            <p style="color: white; background-color:rgb(86, 183, 86); padding:5px; text-align:center; border-radius: 5px;">{{ session('exitoAlta') }}</p>
+        @if(session('exito'))
+            <p style="color: white; background-color:rgb(86, 183, 86); padding:5px; text-align:center; border-radius: 5px;">{{ session('exito') }}</p>
         @endif
 
-        <form action="/libros/alta" method="POST">
+        <form action="{{ route('libros.alta')}}" method="POST">
             @csrf
             <div class="mb-3">
                 <label for="nombre" class="form-label">Título</label>
-                <input type="text" name="nombre" class="form-control" id="nombre" placeholder="Nombre">
+                <input type="text" name="nombre" class="form-control" id="nombre" value="{{ old('nombre')}}" placeholder="Nombre" disabled="{{ $disabled }}">
             </div>
-            @error('nombre')
-                    <div class="alert alert-danger py-1">El nombre no es válido</div>
-                @enderror
+            @error('nombre') <p style="color: red;">{{ $message }}</p> @enderror
+
             <div class="mb-3">
                 <label for="autor" class="form-label">Autor</label>
-                <input type="text" name="autor" class="form-control" id="autor" placeholder="Autor">
+                <input type="text" name="autor" class="form-control" id="autor" value="{{ old('autor')}}" placeholder="Autor" disabled="{{ $disabled }}">
             </div>
-            @error('autor')
-                <div class="alert alert-danger py-1">El autor no es válido</div>
-            @enderror
+            @error('autor') <p style="color: red;">{{ $message }}</p> @enderror
+
             <div class="mb-3">
                 <label for="anho" class="form-label">Año</label>
-                <input type="text" name="anho" class="form-control" id="anho" placeholder="Año">
+                <input type="text" name="anho" class="form-control" id="anho" value="{{ old('anho')}}" placeholder="Año" disabled="{{ $disabled }}">
             </div>
-            @error('anho')
-                <div class="alert alert-danger py-1">El año no es válido</div>
-            @enderror
+            @error('anho') <p style="color: red;">{{ $message }}</p> @enderror
+
             <div class="mb-3">
                 <label for="genero" class="form-label">Género</label>
-                <select name="genero" id="genero" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <select name="genero" id="genero" class="form-select form-select-sm" aria-label=".form-select-sm example" disabled="{{ $disabled }}">
                     <option value="">Selecciona un género...</option>
                     @foreach ($GENEROS as $clave_genero => $texto_genero)
-            
-                        <option value="{{ $clave_genero }}">{{ $texto_genero }}</option>
+
+                    @php
+                        $selected = old('genero') == $clave_genero ? 'selected="selected"' : '';
+                    @endphp
+
+                    <option value="{{ $clave_genero }}" {{ $selected }}>{{ $texto_genero }}</option>
     
                     @endforeach
                 </select>            
             </div>
-            @error('genero')
-                <div class="alert alert-danger py-1">Género no válido. Selecciona uno</div>
-            @enderror
+            @error('genero') <p style="color: red;">{{ $message }}</p> @enderror
+
             <div class="mb-3">
                 <label for="editorial" class="form-label">Editorial</label>
-                <select name="editorial" id="editorial" class="form-select form-select-sm" aria-label=".form-select-sm example">
+                <select name="editorial" id="editorial" class="form-select form-select-sm" aria-label=".form-select-sm example" disabled="{{ $disabled }}">
                     <option value="">Selecciona una editorial...</option>
                     @foreach ($EDITORIALES as $clave_editorial => $texto_editorial)
             
-                        <option value="{{ $clave_editorial }}">{{ $texto_editorial }}</option>
+                        @php
+                            $selected = old('editorial') == $clave_editorial ? 'selected="selected"' : '';
+                        @endphp
+
+                        <option value="{{ $clave_editorial }}" {{ $selected }}>{{ $texto_editorial }}</option>
     
                     @endforeach
                 </select>
                 
             </div>
-            @error('editorial')
-                <div class="alert alert-danger py-1">Editorial no es válida. Selecciona una</div>
-            @enderror
+            @error('editorial') <p style="color: red;">{{ $message }}</p> @enderror
     
             <div class="mb-3">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea name="descripcion" class="form-control" id="descripcion" placeholder="Descripción..."></textarea>
+                <textarea name="descripcion" class="form-control" id="descripcion" value="{{ old('descripcion')}}" placeholder="Descripción..." disabled="{{ $disabled }}"></textarea>
             </div>
 
-            @error('descripcion')
-                <div class="alert alert-danger py-1">Descripción no válida</div>
-            @enderror
+            @error('descripcion') <p style="color: red;">{{ $message }}</p> @enderror
     
     
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-primary" disabled="{{ $disabled }}">Enviar</button>
+            <a href="/libros" class="btn btn-success">Volver al listado</a>
         </form>
     </div>
 @endsection
