@@ -13,8 +13,9 @@ class LibroController extends Controller
         $libros = Libro::paginate(7);
         $EDITORIALES = Libro::EDITORIALES;
         $GENEROS = Libro::GENEROS;
+        $disabled = '';
 
-        return view('libros.listado', compact('libros', 'EDITORIALES', 'GENEROS'));
+        return view('libros.listado', compact('libros', 'EDITORIALES', 'GENEROS', 'disabled'));
     }
 
     function formulario()
@@ -79,14 +80,13 @@ class LibroController extends Controller
 
     function consultar($id)
     {
-        $libroConsultar = Libro::find($id);
+        $datosLibro = Libro::find($id);
 
         $EDITORIALES = Libro::EDITORIALES;
         $GENEROS = Libro::GENEROS;
-        $devolver = '';
-        $disabled = true;
+        $disabled = 'disabled';
 
-        return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'libroConsultar', 'disabled'));
+        return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'datosLibro', 'disabled'));
 
     }
 }
