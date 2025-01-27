@@ -85,8 +85,36 @@ class LibroController extends Controller
         $EDITORIALES = Libro::EDITORIALES;
         $GENEROS = Libro::GENEROS;
         $disabled = 'disabled';
-
         return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'datosLibro', 'disabled'));
 
+    }
+
+    function confirmarEdicion($id)
+    {
+        $libroActualizar = Libro::find($id);
+
+        $EDITORIALES = Libro::EDITORIALES;
+        $GENEROS = Libro::GENEROS;
+        $disabled = '';
+
+        $libroActualizar->nombre      = $libroActualizar['nombre'];
+        $libroActualizar->autor       = $libroActualizar['autor'];
+        $libroActualizar->genero      = $libroActualizar['genero'];
+        $libroActualizar->editorial   = $libroActualizar['editorial'];
+        $libroActualizar->descripcion = $libroActualizar['descripcion'];
+        $libroActualizar->anho        = $libroActualizar['anho'];
+        $libroActualizar->save($id);
+
+        return redirect()->back();
+    }
+
+    function verLibroEditar($id)
+    {
+        $datosLibro = Libro::find($id);
+
+        $EDITORIALES = Libro::EDITORIALES;
+        $GENEROS = Libro::GENEROS;
+        $disabled = '';
+        return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'datosLibro', 'disabled'));
     }
 }

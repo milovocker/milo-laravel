@@ -20,3 +20,6 @@ Route::get('/libros/alta'                , [LibroController::class, 'formulario'
 Route::post('/libros/alta'               , [LibroController::class, 'alta'])->name('libros.alta');
 Route::get('/libros/eliminar/{id}'       , [LibroController::class, 'eliminar']);
 Route::get('/libros/{id}'                , [LibroController::class, 'consultar'])->name('libros.consultar');
+
+Route::get('/libros/actualizar/{id}'                , [LibroController::class, 'verLibroEditar'])->name('libros.verLibroEditar');
+Route::post('/libros/actualizar/{id}'                , [LibroController::class, 'confirmarEdicion'])->name('libros.confirmarEdicion');

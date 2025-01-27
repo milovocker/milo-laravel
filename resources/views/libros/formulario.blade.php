@@ -8,10 +8,12 @@
 
 
         @php
-            $finalValue = "";
-            if(isset($datosLibro)){
+            $finalValue = [];
+            $campos = ["nombre", "editorial", "autor", "descripcion", "anho", "genero"];
+
+            if (isset($datosLibro)) {
                 $finalValue = $datosLibro;
-            }else{
+            } else {
                 $finalValue = [
                     "nombre" => "",
                     "editorial" => "",
@@ -21,6 +23,12 @@
                     "genero" => ""
                 ];
 
+                // Recorremos el array de campos para verificar si alguno tiene valor en old()
+                foreach ($campos as $campo) {
+                    if (null !== old($campo)) {
+                        $finalValue[$campo] = old($campo);
+                    }
+                }
             }
         @endphp
 
@@ -48,18 +56,28 @@
                 <input type="text" name="anho" class="form-control" id="anho" value="{{ $finalValue['anho']}}" placeholder="Año" <?php echo $disabled?>>
             </div>
             @error('anho') <p style="color: red;">{{ $message }}</p> @enderror
-
+     
             <div class="mb-3">
                 <label for="genero" class="form-label">Género</label>
                 <select name="genero" id="genero" class="form-select form-select-sm" aria-label=".form-select-sm example" <?php echo $disabled?>>
                     <option value="">Selecciona un género...</option>
+                    
                     @foreach ($GENEROS as $clave_genero => $texto_genero)
+    
 
-                    @php
-                        $selected = old('genero') == $clave_genero ? 'selected="selected"' : '';
-                    @endphp
+                        @php
 
-                    <option value="{{ $clave_genero }}" {{ $selected }}>{{ $texto_genero }}</option>
+                            
+                            if((old('genero')==$clave_genero)||($finalValue['genero'])==$clave_genero){
+                                $selected = 'selected';
+                            }else{
+                                $selected = '';
+                            }
+
+
+                        @endphp
+
+                        <option value="{{ $clave_genero }}" {{ $selected }}>{{ $texto_genero }}</option>
     
                     @endforeach
                 </select>            
@@ -73,7 +91,11 @@
                     @foreach ($EDITORIALES as $clave_editorial => $texto_editorial)
             
                         @php
-                            $selected = old('editorial') == $clave_editorial ? 'selected="selected"' : '';
+                            if((old('editorial')==$clave_editorial)||($finalValue['editorial'])==$clave_editorial){
+                                $selected = 'selected';
+                            }else{
+                                $selected = '';
+                            }
                         @endphp
 
                         <option value="{{ $clave_editorial }}" {{ $selected }}>{{ $texto_editorial }}</option>
