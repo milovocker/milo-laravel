@@ -119,7 +119,7 @@ class LibroController extends Controller
         return redirect()->back();
     }
 
-    function verLibroEditar($id)
+    function formularioEdicion($id)
     {
         $datosLibro = Libro::find($id);
 

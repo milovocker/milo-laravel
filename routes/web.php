@@ -21,5 +21,5 @@ Route::post('/libros/alta'               , [LibroController::class, 'alta'])->na
 Route::get('/libros/eliminar/{id}'       , [LibroController::class, 'eliminar']);
 Route::get('/libros/{id}'                , [LibroController::class, 'consultar'])->name('libros.consultar');
 
-Route::get('/libros/actualizar/{id}'                , [LibroController::class, 'verLibroEditar'])->name('libros.verLibroEditar');
+Route::get('/libros/actualizar/{id}'                , [LibroController::class, 'formularioEdicion'])->name('libros.formularioEdicion');
 Route::post('/libros/actualizar/{id}'                , [LibroController::class, 'confirmarEdicion'])->name('libros.confirmarEdicion');
