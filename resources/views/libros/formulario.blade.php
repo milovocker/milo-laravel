@@ -38,7 +38,7 @@
         <div class="mb-3">
             <label for="nombre" class="form-label">Título</label>
             <input {{ $disabled }} type="text" name="nombre" class="form-control" id="nombre" value="{{ $value }}" placeholder="Título">
-            @error('nombre') <p style="color: red;">{{ $message }}</p> @enderror
+            @error('nombre') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
         </div>
 
         @php
@@ -65,7 +65,7 @@
         <div class="mb-3">
             <label for="autor" class="form-label">Autor</label>
             <input {{ $disabled }} type="text" name="autor" class="form-control" id="autor" value="{{ $value }}" placeholder="Autor">
-            @error('autor') <p style="color: red;">{{ $message }}</p> @enderror
+            @error('autor') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
         </div>
 
         @php
@@ -77,7 +77,7 @@
                 $disabled = 'disabled';
             }elseif($oper == 'alta'){
                 $disabled = session('formData') ? 'disabled' : '';
-                $value    = old('autor',session('formData.anho'));
+                $value    = old('anho',session('formData.anho'));
             }elseif($oper == 'editar'){
                 $disabled = session('formData') ? 'disabled' : '';
                 $value = $datosLibro['anho'];
@@ -91,22 +91,22 @@
         <div class="mb-3">
             <label for="anho" class="form-label">Año</label>
             <input {{ $disabled }} type="text" name="anho" class="form-control" id="anho"  value="{{ $value }}" placeholder="Año">
-            @error('anho') <p style="color: red;">{{ $message }}</p> @enderror
+            @error('anho') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
         </div>
 
         @php
 
-            $value = '';
+            $valueGenero = '';
 
             if($oper == 'consultar'){
-                $value = $datosLibro['genero'];
+                $valueGenero = $datosLibro['genero'];
                 $disabled = 'disabled';
             }elseif($oper == 'alta'){
                 $disabled = session('formData') ? 'disabled' : '';
-                $value    = old('autor',session('formData.genero'));
+                $valueGenero    = old('genero',session('formData.genero'));
             }elseif($oper == 'editar'){
                 $disabled = session('formData') ? 'disabled' : '';
-                $value = $datosLibro['genero'];
+                $valueGenero = $datosLibro['genero'];
             }else{
                 return 'Operación no válida';
             };
@@ -123,7 +123,7 @@
 
                     @php
                         $selected = '';
-                        if($value = $clave_genero){
+                        if($valueGenero == $clave_genero){
                             $selected = 'selected';
                         }else{
                             $selected = '';
@@ -134,22 +134,23 @@
 
                 @endforeach
             </select>
-            @error('genero') <p style="color: red;">{{ $message }}</p> @enderror
+            @error('genero') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
         </div>
 
         @php
 
-            $value = '';
+            $valueEditorial = '';
 
             if($oper == 'consultar'){
-                $value = $datosLibro['editorial'];
+                $valueEditorial = $datosLibro['editorial'];
                 $disabled = 'disabled';
             }elseif($oper == 'alta'){
                 $disabled = session('formData') ? 'disabled' : '';
-                $value    = old('autor',session('formData.editorial'));
+                $valueEditorial    = old('editorial',session('formData.editorial'));
+                
             }elseif($oper == 'editar'){
                 $disabled = session('formData') ? 'disabled' : '';
-                $value = $datosLibro['editorial'];
+                $valueEditorial = $datosLibro['editorial'];
             }else{
                 return 'Operación no válida';
             };
@@ -162,11 +163,12 @@
             <label for="editorial" class="form-label">Editorial</label>
             <select {{ $disabled }} name="editorial" id="editorial" class="form-select form-select-sm" aria-label=".form-select-sm example">
                 <option value="">Selecciona una editorial...</option>
+                
                 @foreach ($EDITORIALES as $clave_editorial => $texto_editorial)
         
                     @php
                         $selected = '';
-                        if($value = $clave_editorial){
+                        if($value == $clave_editorial){
                             $selected = 'selected';
                         }else{
                             $selected = '';
@@ -177,7 +179,7 @@
 
                 @endforeach
             </select>
-            @error('editorial') <p style="color: red;">{{ $message }}</p> @enderror
+            @error('editorial') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
         </div>
 
         @php
@@ -189,7 +191,7 @@
                 $disabled = 'disabled';
             }elseif($oper == 'alta'){
                 $disabled = session('formData') ? 'disabled' : '';
-                $value    = old('autor',session('formData.descripcion'));
+                $value    = old('descripcion',session('formData.descripcion'));
             }elseif($oper == 'editar'){
                 $disabled = session('formData') ? 'disabled' : '';
                 $value = $datosLibro['descripcion'];
@@ -202,7 +204,7 @@
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción</label>
             <textarea {{ $disabled }} name="descripcion" class="form-control" id="descripcion" placeholder="Descripción...">{{ $value }}</textarea>
-            @error('descripcion') <p style="color: red;">{{ $message }}</p> @enderror
+            @error('descripcion') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
         </div>
 
 
