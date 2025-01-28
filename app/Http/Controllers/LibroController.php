@@ -23,12 +23,14 @@ class LibroController extends Controller
         $EDITORIALES = Libro::EDITORIALES;
         $GENEROS = Libro::GENEROS;
         $disabled = false;
-        return view('libros.formulario', compact('GENEROS', 'EDITORIALES', 'disabled'));
+        $oper = 'alta';
+        $datosLibro = '';
+        return view('libros.formulario', compact('GENEROS', 'EDITORIALES', 'disabled','oper', 'datosLibro'));
     }
 
     function alta( Request $request )
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nombre'         => 'required|string|max:255',
             'autor'          => 'required|string|max:255',
             'anho'           => 'required|integer',
@@ -68,13 +70,19 @@ class LibroController extends Controller
             $libro->anho = $request->anho;
             $libro->save();
 
-            return redirect()->route('libros.alta')->with('exito', 'Libro insertado correctamente.');
+            
+            return redirect()->route('libros.alta')->with([
+                     'exito' => 'Libro insertado correctamente.'
+                    ,'formData' =>  $validatedData
+                ]);
     }
 
     function eliminar($id)
     {
         $libroEliminar = Libro::find($id);
         $libroEliminar->delete();
+        $oper = 'eliminar';
+
         return redirect()->back()->with('exitoEliminar', 'Libro eliminado correctamente');
     }
 
@@ -84,8 +92,11 @@ class LibroController extends Controller
 
         $EDITORIALES = Libro::EDITORIALES;
         $GENEROS = Libro::GENEROS;
-        $disabled = 'disabled';
-        return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'datosLibro', 'disabled'));
+        $oper = 'consultar';
+  
+        return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'datosLibro', 'oper', 'datosLibro'))->with([
+            'formData' =>  $datosLibro
+       ]);;
 
     }
 
@@ -114,7 +125,7 @@ class LibroController extends Controller
 
         $EDITORIALES = Libro::EDITORIALES;
         $GENEROS = Libro::GENEROS;
-        $disabled = '';
-        return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'datosLibro', 'disabled'));
+        $oper = 'editar';
+        return view('libros.formulario', compact('EDITORIALES', 'GENEROS', 'datosLibro', 'oper'));
     }
 }
