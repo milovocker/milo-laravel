@@ -50,6 +50,6 @@
     </div>
     <div class="container d-flex justify-content-center">
     </div>
-    <a href="/libros/alta" class="btn btn-success"><i class="bi bi-plus"></i> Nuevo libro</a>
+    <a href="/libros/nuevo" class="btn btn-success"><i class="bi bi-plus"></i> Nuevo libro</a>
 </div>
 @endsection
