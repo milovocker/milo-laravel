@@ -1,5 +1,6 @@
 @extends('layout')
 
+
 @section('title', 'Alta de libro')
 
 @section('content')
@@ -20,52 +21,57 @@
             else
                 $boton_guardar = '';
         }
-  
+            
+
+
+
     @endphp
 
     <br />
-    @if(session('exito'))
-        <p style="text-align:center;" class="alert alert-success">{{ session('exito') }}</p>
+    @if(session('success'))
+        <p style="text-align:center;" class="alert alert-success">{{ session('success') }}</p>
     @endif
-
-    <form action="{{ route('libros.alta') }}" method="POST">
+    
+    <form action="{{ route('libros.almacenar') }}" method="POST">
         @csrf
         <input type="hidden" name="oper" value="{{ $oper }}" />
+        <input type="hidden" name="id" value="{{ $libro->id }}" />
         <div class="mb-3">
             <label for="nombre" class="form-label">Título</label>
             <input {{ $disabled }} type="text" name="nombre" class="form-control" id="nombre" value="{{ old('nombre',$libro->nombre)}}" placeholder="Título">
-            @error('nombre') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
+            @error('nombre') <p style="color: red;">{{ $message }}</p> @enderror
         </div>
-
         <div class="mb-3">
             <label for="autor" class="form-label">Autor</label>
-            <input {{ $disabled }} type="text" name="autor" class="form-control" id="autor" value="{{ old('autor',$libro->autor)}}" placeholder="Autor">
-            @error('autor') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
+            <input {{ $disabled }}  type="text" name="autor" class="form-control" id="autor" value="{{ old('autor',$libro->autor)}}" placeholder="Autor">
+            @error('autor') <p style="color: red;">{{ $message }}</p> @enderror
         </div>
-
         <div class="mb-3">
             <label for="anho" class="form-label">Año</label>
-            <input {{ $disabled }} type="text" name="anho" class="form-control" id="anho" value="{{ old('anho',$libro->anho)}}" placeholder="Año">
-            @error('anho') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
+            <input {{ $disabled }}  type="text" name="anho" class="form-control" id="anho"  value="{{ old('anho',$libro->anho)}}" placeholder="Año">
+            @error('anho') <p style="color: red;">{{ $message }}</p> @enderror
         </div>
-
         <div class="mb-3">
             <label for="genero" class="form-label">Género</label>
-            <select {{ $disabled }} name="genero" id="genero" class="form-select form-select-sm">
+            <select {{ $disabled }}  name="genero" id="genero" class="form-select form-select-sm" aria-label=".form-select-sm example">
                 <option value="">Selecciona un género...</option>
                 @foreach ($GENEROS as $clave_genero => $texto_genero)
+
                     @php
                         $selected = old('genero') == $clave_genero || $libro->genero == $clave_genero ? 'selected="selected"' : '';
                     @endphp
+        
+    
+        
                     <option value="{{ $clave_genero }}" {{ $selected }}>{{ $texto_genero }}</option>
+
                 @endforeach
             </select>
-            @error('genero') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
+            @error('genero') <p style="color: red;">{{ $message }}</p> @enderror
         </div>
-
         <div class="mb-3">
             <label for="editorial" class="form-label">Editorial</label>
-            <select {{ $disabled }} name="editorial" id="editorial" class="form-select form-select-sm">
+            <select {{ $disabled }}  name="editorial" id="editorial" class="form-select form-select-sm" aria-label=".form-select-sm example">
                 <option value="">Selecciona una editorial...</option>
                 @foreach ($EDITORIALES as $clave_editorial => $texto_editorial)
         
@@ -77,21 +83,24 @@
 
                 @endforeach
             </select>
-            @error('editorial') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
+            @error('editorial') <p style="color: red;">{{ $message }}</p> @enderror
         </div>
 
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción</label>
-            <textarea {{ $disabled }} name="descripcion" class="form-control" id="descripcion" placeholder="Descripción...">{{ old('descripcion',$libro->descripcion) }}</textarea>
-            @error('descripcion') <p class="alert alert-danger py-1">{{ $message }}</p> @enderror
+            <textarea {{ $disabled }}  name="descripcion" class="form-control" id="descripcion" placeholder="Descripción...">{{ old('descripcion',$libro->descripcion) }}</textarea>
+            @error('descripcion') <p style="color: red;">{{ $message }}</p> @enderror
         </div>
+
+
 
         @php
 
-            echo $boton_guardar ;
-
+        echo $boton_guardar ;
+    
         @endphp
-        <a href="/libros" class="btn btn-success">Volver al listado</a>
+
     </form>
 
 @endsection
+

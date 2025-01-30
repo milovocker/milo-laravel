@@ -3,43 +3,50 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Libro;
-use Illuminate\Support\Facades\Validator;
 
 class LibroController extends Controller
 {
     function listado()
     {
-        $libros = Libro::paginate(7);
-        $EDITORIALES = Libro::EDITORIALES;
-        $GENEROS = Libro::GENEROS;
 
-        return view('libros.listado', compact('libros', 'EDITORIALES', 'GENEROS'));
+        $libros = Libro::paginate(7);
+
+        $GENEROS     = Libro::GENEROS;
+        $EDITORIALES = Libro::EDITORIALES;
+
+
+        return view('libros.libro',compact('libros','GENEROS','EDITORIALES'));
     }
+
 
     function formulario($oper='', $id='')
     {
         $libro = empty($id)? new Libro() : Libro::find($id);
-        dd($libro);
+        
         $GENEROS     = Libro::GENEROS;
         $EDITORIALES = Libro::EDITORIALES;
-        return view('libros.formulario', compact('GENEROS', 'EDITORIALES', 'oper', 'libro'));
+
+        return view('libros.formulario',compact('GENEROS','EDITORIALES','libro','oper'));
+    }
+
+    function mostrar($id)
+    {
+        return $this->formulario('cons', $id);
+    }
+
+
+    function actualizar($id)
+    {
+        return $this->formulario('modi', $id);
+
     }
 
     function eliminar($id)
     {
         return $this->formulario('supr', $id);
-    }
 
-    function consultar($id)
-    {
-        return $this->formulario('cons', $id);
-
-    }
-
-    function editar($id)
-    {
-        return $this->formulario('modi', $id);
     }
 
     function alta()
@@ -104,7 +111,7 @@ class LibroController extends Controller
 
 
 
-            $libro = empty($request->id)? new Libro() : Libro::find($request->id) ;
+            $libro = empty($request->id)? new Libro() : Libro::find($request->id);
 
             $libro->nombre      = $request->nombre;
             $libro->autor       = $request->autor;
@@ -117,7 +124,7 @@ class LibroController extends Controller
 
 
             $salida = redirect()->route('libros.alta')->with([
-                    'exito'  => 'Libro insertado correctamente.'
+                    'success'  => 'Libro insertado correctamente.'
                     ,'formData' => $libro
                 ]
             );
@@ -127,5 +134,4 @@ class LibroController extends Controller
         return $salida;
     }
 
-    
 }
