@@ -29,9 +29,9 @@
             <tr>
                 <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     <div>
-                        <a href="/libros/{{ $libro->id }}" class="btn btn-primary"><i class="bi bi-search"></i></a>
-                        <a href="/libros/actualizar/{{ $libro->id }}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
-                        <a href="/libros/eliminar/{{ $libro->id }}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+                        <a  href="/libros/{{ $libro->id }}" class="btn btn-primary operBtn"><i class="bi bi-search"></i></a>
+                        <a  href="/libros/actualizar/{{ $libro->id }}" class="btn btn-warning operBtn"><i class="bi bi-pencil-square"></i></a>
+                        <a  href="/libros/eliminar/{{ $libro->id }}" class="btn btn-danger operBtn"><i class="bi bi-trash"></i></a>
                     </div>
                 </td>
                 <td>{{ $libro->nombre }}</td> 
