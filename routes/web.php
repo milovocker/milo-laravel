@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\DatosController;
 use App\Http\Controllers\LibroController;
 
@@ -24,14 +25,14 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::get('/libros'       , [LibroController::class, 'listado'])->name('libros.listado');
-
-
-Route::get('/libro/{id}'            , [LibroController::class, 'mostrar'])->name('libros.mostrar');
-Route::get('/libro/actualizar/{id}' , [LibroController::class, 'actualizar'])->name('libros.actualizar');
-Route::get('/libro/eliminar/{id}'   , [LibroController::class, 'eliminar'])->name('libros.eliminar');
-Route::get('/libros/nuevo'          , [LibroController::class, 'alta'])->name('libros.alta');
-Route::post('/libros/nuevo'         , [LibroController::class, 'almacenar'])->name('libros.almacenar');
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::get('/libros'                , [LibroController::class, 'listado'])->name('libros.listado');
+    Route::get('/libro/{id}'            , [LibroController::class, 'mostrar'])->name('libros.mostrar');
+    Route::get('/libro/actualizar/{id}' , [LibroController::class, 'actualizar'])->name('libros.actualizar');
+    Route::get('/libro/eliminar/{id}'   , [LibroController::class, 'eliminar'])->name('libros.eliminar');
+    Route::get('/libros/nuevo'          , [LibroController::class, 'alta'])->name('libros.alta');
+    Route::post('/libros/nuevo'         , [LibroController::class, 'almacenar'])->name('libros.almacenar');
+});
 
 
 Route::get('/admin', function () {
@@ -41,3 +42,4 @@ Route::get('/admin', function () {
 
 
 require __DIR__.'/auth.php';
+
