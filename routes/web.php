@@ -26,12 +26,10 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::group(['middleware' => ['role:admin']], function () {
+Route::group(['middleware' => ['role:admin|editor']], function () {
     Route::get('/libros'                , [LibroController::class, 'listado'])->name('libros.listado');
     Route::get('/libro/{id}'            , [LibroController::class, 'mostrar'])->name('libros.mostrar');
     Route::get('/libro/actualizar/{id}' , [LibroController::class, 'actualizar'])->name('libros.actualizar');
-    Route::get('/libro/eliminar/{id}'   , [LibroController::class, 'eliminar'])->name('libros.eliminar');
-    Route::get('/libros/nuevo'          , [LibroController::class, 'alta'])->name('libros.alta');
     Route::post('/libros/nuevo'         , [LibroController::class, 'almacenar'])->name('libros.almacenar');
 
     Route::get('/users'                , [UserController::class, 'listado'])->name('users.listado');
@@ -42,6 +40,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('/user/nuevo'         , [UserController::class, 'almacenar'])->name('users.almacenar');
 });
 
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::get('/libro/eliminar/{id}'   , [LibroController::class, 'eliminar'])->name('libros.eliminar');
+    Route::get('/libros/nuevo'          , [LibroController::class, 'alta'])->name('libros.alta');
+});
 
 Route::get('/admin', function () {
     return view('admin.dashboard');

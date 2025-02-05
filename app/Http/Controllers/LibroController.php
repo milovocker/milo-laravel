@@ -76,7 +76,7 @@ class LibroController extends Controller
             $validacion_genero = substr($validacion_genero,0,-1);
             
             $validatedData = $request->validate([
-                'nombre'         => 'required|string|max:255',
+                'nombre'         => 'required|string|max:255|unique:libros,nombre',
                 'autor'          => 'required|string|max:255',
                 'anho'           => 'required|integer',
                 'genero'         => 'required|in:'.$validacion_genero,
@@ -87,7 +87,7 @@ class LibroController extends Controller
                 'nombre.string'   => 'Debe ser de tipo cadena de texto.',
                 'nombre.max'      => 'Máximo 255 caracteres',
 
-                'nombre.max'      => 'Máximo 255 caracteres',
+                'nombre.unique'      => 'registro duplicado',
 
 
 
