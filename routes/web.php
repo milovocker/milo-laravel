@@ -7,6 +7,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\DatosController;
 use App\Http\Controllers\LibroController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +33,13 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/libro/eliminar/{id}'   , [LibroController::class, 'eliminar'])->name('libros.eliminar');
     Route::get('/libros/nuevo'          , [LibroController::class, 'alta'])->name('libros.alta');
     Route::post('/libros/nuevo'         , [LibroController::class, 'almacenar'])->name('libros.almacenar');
+
+    Route::get('/users'                , [UserController::class, 'listado'])->name('users.listado');
+    Route::get('/user/{id}'            , [UserController::class, 'mostrar'])->name('users.mostrar');
+    Route::get('/user/actualizar/{id}' , [UserController::class, 'actualizar'])->name('users.actualizar');
+    Route::get('/user/eliminar/{id}'   , [UserController::class, 'eliminar'])->name('users.eliminar');
+    Route::get('/users/nuevo'          , [UserController::class, 'alta'])->name('users.alta');
+    Route::post('/user/nuevo'         , [UserController::class, 'almacenar'])->name('users.almacenar');
 });
 
 
